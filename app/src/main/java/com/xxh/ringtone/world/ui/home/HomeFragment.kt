@@ -43,16 +43,11 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         binding = FragmentHomeBinding.inflate(layoutInflater)
-//        val root = inflater.inflate(R.layout.fragment_home, container, false)
-//        val textView: TextView = root.findViewById(R.id.text_home)
-//        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
 
         recyclerView = binding.root.findViewById(R.id.song_list)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            setItemViewCacheSize(1000)
+            setItemViewCacheSize(2000)
         }
 
         GetSongs().execute(
@@ -81,7 +76,7 @@ class HomeFragment : Fragment() {
             super.onPostExecute(result)
 
             val len = result!!.size
-            Log.i("TAG", "$len")
+//            Log.i("TAG", "$len")
 
             recyclerView.adapter = SongListAdapter(result)
             recyclerView.setHasFixedSize(true)
