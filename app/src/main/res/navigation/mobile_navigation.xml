@@ -25,6 +25,6 @@
     <fragment
         android:id="@+id/song_fragment"
         android:name="com.xxh.ringtone.world.ui.download.SongFragment"
-        android:label="fragment_song"
+        android:label="@string/menu_song"
         tools:layout="@layout/fragment_song" />
 </navigation>

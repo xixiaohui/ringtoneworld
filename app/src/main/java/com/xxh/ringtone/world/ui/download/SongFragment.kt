@@ -22,7 +22,6 @@ private const val ARG_PARAM2 = "param2"
 class SongFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var song: Song? = null
-    private var param2: String? = null
 
     private lateinit var binding: FragmentSongBinding
 
@@ -30,10 +29,7 @@ class SongFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             song = it.getParcelable(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
-
-
 
     }
 
@@ -42,9 +38,10 @@ class SongFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSongBinding.inflate(layoutInflater)
-        binding.songName.text = song!!.title
+        if (song !=null){
+            binding.songName.text = song!!.title
+        }
 
-                // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -63,7 +60,6 @@ class SongFragment : Fragment() {
             SongFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

@@ -57,10 +57,10 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        getCurrentFragment()
+//        getCurrentFragment()
     }
 
-    fun getCurrentFragment() {
+    private fun getCurrentFragment() {
         val fragment = getFragment(HomeFragment::class.java)
         if (fragment is HomeFragment) {
             fragment.setDatabase()
