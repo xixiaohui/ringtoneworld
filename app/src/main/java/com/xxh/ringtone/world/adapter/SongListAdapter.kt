@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xxh.ringtone.world.R
 import com.xxh.ringtone.world.data.model.Song
 
-class SongListAdapter(private val data: MutableList<Song>): RecyclerView.Adapter<SongListAdapter.SongHolder>() {
+class SongListAdapter(private var data: MutableList<Song>?): RecyclerView.Adapter<SongListAdapter.SongHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongHolder {
@@ -23,7 +23,15 @@ class SongListAdapter(private val data: MutableList<Song>): RecyclerView.Adapter
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        if (data != null) {
+            return data!!.size
+        }
+        return 0
+    }
+
+    internal fun setRingtones(ringtones: List<Song>) {
+        this.data = ringtones as MutableList<Song>
+        notifyDataSetChanged()
     }
 
     class SongHolder(itemView: View): RecyclerView.ViewHolder(itemView){

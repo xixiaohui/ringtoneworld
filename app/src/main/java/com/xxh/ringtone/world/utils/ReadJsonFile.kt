@@ -1,6 +1,7 @@
 package com.xxh.ringtone.world.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.res.AssetManager
 import android.os.AsyncTask
 import android.util.Log
@@ -19,11 +20,11 @@ class ReadJsonFile {
     companion object {
         val ringtoneFileName = "ringtone.json"
 
-        private fun getJson(activity: Activity, fileName: String): String {
+        private fun getJson(context: Context, fileName: String): String {
 
             val stringBuilder = StringBuilder()
             try {
-                val assetManager: AssetManager = activity.assets
+                val assetManager: AssetManager = context.assets
                 val bf = BufferedReader(
                     InputStreamReader(
                         assetManager.open(fileName)
@@ -54,19 +55,20 @@ class ReadJsonFile {
             return gson.fromJson(json, type)
         }
 
-        private fun getRingtoneListString(activity: Activity): String {
-            return getJson(activity, ringtoneFileName)
+        private fun getRingtoneListString(context: Context): String {
+            return getJson(context, ringtoneFileName)
         }
 
-        fun getRingtoneList(activity: Activity): MutableList<Song> {
+        fun getRingtoneList(context: Context): MutableList<Song> {
             var ringtoneArray = mutableListOf<Song>()
-            val str = getRingtoneListString(activity)
+            val str = getRingtoneListString(context)
             val jsonArray = getJsonArray(str)
             val len = jsonArray.length() - 1
             for (i in 0..len) {
                 var jsonObject = jsonArray.getJSONObject(i)
                 var song = jsonToObject(jsonObject.toString(), Song::class.java)
 
+//                song.id = 0
                 ringtoneArray.add(song)
             }
             return ringtoneArray

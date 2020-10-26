@@ -9,8 +9,8 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 data class Song(
 
-    @PrimaryKey
-    var id: Int,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     var title: String?,
     var url: String,
     var artistName: String?,

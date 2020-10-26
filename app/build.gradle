@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.xxh.ringtone.world"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -73,12 +73,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    //Koin Libs
-    implementation "org.koin:koin-core:$koin_version"
-    implementation "org.koin:koin-android:$koin_version"
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-    implementation "org.koin:koin-android-architecture:$koin_architecture_version"
-    testImplementation "org.koin:koin-test:$koin_version"
+
 
 
     testImplementation 'junit:junit:4.+'
