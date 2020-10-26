@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xxh.ringtone.world.R
@@ -50,7 +51,9 @@ class HomeFragment() : Fragment() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setItemViewCacheSize(2000)
-            adapter = SongListAdapter(null)
+            adapter = SongListAdapter(null) { song ->
+                jumpToDesPage(song)
+            }
         }
 
         ringtoneViewModel =
@@ -58,6 +61,14 @@ class HomeFragment() : Fragment() {
         setDatabase()
 
         return binding.root
+    }
+
+    fun jumpToDesPage(song: Song) {
+
+        val bundle = Bundle()
+        bundle.putParcelable("song",song)
+        findNavController().navigate(R.id.song_fragment,bundle)
+
     }
 
     fun setDatabase() {
