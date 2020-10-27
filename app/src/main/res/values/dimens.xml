@@ -10,7 +10,8 @@
     <dimen name="song_text_size">18dp</dimen>
     <dimen name="song_tag_size">14dp</dimen>
     <dimen name="song_button_size">18dp</dimen>
-    <dimen name="play_circle">96dp</dimen>
-    <dimen name="song_slider_haloRadis">30dp</dimen>
-    <dimen name="song_slider_thumbRadius">15dp</dimen>
+    <dimen name="play_circle">48dp</dimen>
+    <dimen name="song_slider_haloRadis">15dp</dimen>
+    <dimen name="song_slider_thumbRadius">10dp</dimen>
+    <dimen name="song_text_size_bigger">22dp</dimen>
 </resources>

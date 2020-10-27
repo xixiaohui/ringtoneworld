@@ -63,7 +63,7 @@ class HomeFragment() : Fragment() {
         return binding.root
     }
 
-    fun jumpToDesPage(song: Song) {
+    private fun jumpToDesPage(song: Song) {
 
         val bundle = Bundle()
         bundle.putParcelable("song",song)

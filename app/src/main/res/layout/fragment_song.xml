@@ -13,34 +13,35 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:textColor="@color/white"
-        android:textSize="@dimen/song_text_size_big"
+        android:textSize="@dimen/song_text_size_bigger"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.159"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.078"
+        app:layout_constraintVertical_bias="0.553"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/song_time_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0:00"
+        android:text="00:00"
         android:textColor="@color/white"
         android:textSize="@dimen/song_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintVertical_bias="0.8"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/song_time_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="5:00"
+        android:text="00:00"
         android:textColor="@color/white"
         android:textSize="@dimen/song_text_size"
 
@@ -49,7 +50,7 @@
         app:layout_constraintHorizontal_bias="0.925"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintVertical_bias="0.8"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.slider.Slider
@@ -60,7 +61,10 @@
         android:layout_marginRight="@dimen/tag_margin"
         android:contentDescription="@string/slider_desc"
         app:trackColor="@color/white"
+        app:trackColorActive="@color/colorPurple"
+        app:trackColorInactive="@color/colorBlue"
         app:thumbColor="@color/white"
+        app:labelBehavior="withinBounds"
         android:valueFrom="0.0"
         android:valueTo="100.0"
         app:thumbRadius="@dimen/song_slider_thumbRadius"
@@ -70,7 +74,7 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.171"
+        app:layout_constraintVertical_bias="0.75"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -80,10 +84,10 @@
         android:src="@drawable/ic_baseline_cloud_download_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.193"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.667"
+        app:layout_constraintVertical_bias="0.9"
         app:tint="@color/white"
         tools:ignore="MissingConstraints" />
 
@@ -94,10 +98,10 @@
         android:src="@drawable/ic_baseline_play_circle_outline_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.439"
+        app:layout_constraintVertical_bias="0.90"
         app:tint="@color/white"
         tools:ignore="MissingConstraints" />
 
@@ -108,11 +112,36 @@
         android:src="@drawable/ic_baseline_settings_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.842"
+        app:layout_constraintVertical_bias="0.9"
         app:tint="@color/white"
         tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/song_loading_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/colorBlue"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-30dp">
+
+        <ProgressBar
+            android:id="@+id/ads_loading"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.46" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
