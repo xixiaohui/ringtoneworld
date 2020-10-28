@@ -76,6 +76,36 @@ class SongFragment : Fragment() {
             binding.songImageDownload.setOnClickListener {
                 this.onClickDownloadButton()
             }
+
+            binding.songImageSetting.setOnClickListener {
+                this.onClickSettingButton()
+            }
+        }
+    }
+
+    private fun onClickSettingButton() {
+        val context = requireContext()
+        if (!Utils.isRingtoneInSdcard(requireContext()!!, song!!)) {
+            MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(R.string.hi))
+                .setMessage(context.getString(R.string.need_to_download_it))
+                .setPositiveButton(context.resources.getString(R.string.ok)) { _, _ ->
+
+                }
+                .show()
+
+        } else {
+
+            MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(R.string.hi))
+                .setMessage(context.getString(R.string.can_set_ringtone_now))
+                .setNegativeButton(context.resources.getString(R.string.cancel)) { _, _ ->
+
+                }
+                .setPositiveButton(context.resources.getString(R.string.ok)) { _, _ ->
+
+                }
+                .show()
         }
     }
 
@@ -152,7 +182,7 @@ class SongFragment : Fragment() {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onStopTrackingTouch(slider: Slider) {
 //                        Log.i("TAG",slider.value.toString())
-                        if (mediaHolder.haveLoaded()){
+                        if (mediaHolder.haveLoaded()) {
                             val process = slider.value.toInt()
                             mediaHolder.seekAndPlay(process)
                             binding.songImagePlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)

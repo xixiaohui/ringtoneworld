@@ -74,7 +74,6 @@ class ReadJsonFile {
             return ringtoneArray
         }
 
-        class MyTaskParams(val context: Activity, val fileName: String)
 
 
     }

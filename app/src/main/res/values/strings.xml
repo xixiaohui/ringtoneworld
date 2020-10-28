@@ -21,4 +21,7 @@
     <string name="hi">Important hint:</string>
     <string name="download_tips">Watch ads then download for free!</string>
     <string name="download_tips_already_have">You already have it.</string>
+    <string name="need_to_download_it">Click on me, you can directly set this music as a mobile phone ringtone,
+        but you must click the download button to download this ringtone firstly.</string>
+    <string name="can_set_ringtone_now">Ok! You already have it.Now you can directly set this music as your phone ringtone.</string>
 </resources>
