@@ -45,10 +45,14 @@ class MediaHolder private constructor(){
         return mediaPlayer.currentPosition
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun seekAndPlay(msec: Long){
+    fun haveLoaded(): Boolean{
+        return mediaPlayer.duration > 0
+    }
+
+
+    fun seekAndPlay(msec: Int = 0){
         mediaPlayer.start()
-        mediaPlayer.seekTo(msec,MediaPlayer.SEEK_PREVIOUS_SYNC)
+        mediaPlayer.seekTo(msec)
     }
 
     fun isPlaying(): Boolean {

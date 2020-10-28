@@ -1,5 +1,6 @@
 package com.xxh.ringtone.world.ui.download
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -9,11 +10,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import com.xxh.ringtone.world.R
 import com.xxh.ringtone.world.data.model.Song
 import com.xxh.ringtone.world.databinding.FragmentSongBinding
+import com.xxh.ringtone.world.utils.DownloadService
 import com.xxh.ringtone.world.utils.MediaHolder
+import com.xxh.ringtone.world.utils.Utils
 import java.util.concurrent.TimeUnit
 
 
@@ -44,6 +48,8 @@ class SongFragment : Fragment() {
 
     private val mHandler: Handler = Handler()
 
+    private var firstPlay = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,17 +70,62 @@ class SongFragment : Fragment() {
 
             mediaHolder = MediaHolder.get()
             binding.songImagePlay.setOnClickListener {
-
                 this.onClickPlayButton()
             }
+
+            binding.songImageDownload.setOnClickListener {
+                this.onClickDownloadButton()
+            }
+        }
+    }
+
+    private fun onClickDownloadButton() {
+        val context = requireContext()
+        if (Utils.isRingtoneInSdcard(requireContext()!!, song!!)) {
+            MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(R.string.hi))
+                .setMessage(context.getString(R.string.download_tips_already_have)).show()
+            return
         }
 
+        MaterialAlertDialogBuilder(context)
+            .setTitle(context.getString(R.string.hi))
+            .setMessage(context.getString(R.string.download_tips))
+            .setNegativeButton(context.resources.getString(R.string.cancel)) { _, _ ->
 
+            }
+            .setPositiveButton(context.resources.getString(R.string.ok)) { _, _ ->
+
+                val intent = Intent(this.requireActivity(), DownloadService::class.java)
+                intent.putExtra("song", song);
+                this.requireActivity().startService(intent)
+
+            }.show()
     }
 
     private fun onClickPlayButton() {
-        mediaHolder.start(song!!.url, object : MediaHolder.DoAction {
+
+        if (mediaHolder.isPlaying()) {
+            mediaHolder.pause()
+            binding.songImagePlay.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
+            return
+        }
+
+        if (!firstPlay && mediaHolder.haveLoaded()) {
+            mediaHolder.seekAndPlay(slider!!.value.toInt())
+            binding.songImagePlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
+            return
+        }
+
+
+        var path = song!!.url
+        if (Utils.isRingtoneInSdcard(requireContext()!!, song!!)) {
+            path = Utils.getRingtoneLocalPath(songTitle = song!!.title!!)
+        }
+
+        mediaHolder.start(path, object : MediaHolder.DoAction {
             override fun doAfter() {
+                firstPlay = false
                 updateSlider()
 
                 binding.songLoadingBg.visibility = View.INVISIBLE
@@ -101,25 +152,23 @@ class SongFragment : Fragment() {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onStopTrackingTouch(slider: Slider) {
 //                        Log.i("TAG",slider.value.toString())
-
-                            val process = slider.value.toLong()
+                        if (mediaHolder.haveLoaded()){
+                            val process = slider.value.toInt()
                             mediaHolder.seekAndPlay(process)
-
+                            binding.songImagePlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
+                        }
 
                     }
                 })
-//
 
                 slider!!.apply {
 //                    valueTo = (mediaHolder.duration() / 1000.0).toFloat()
                     valueFrom = 0.0.toFloat()
                     valueTo = getFinalTime().toFloat()
                 }
-
             }
 
             override fun doBefore() {
-
                 binding.songLoadingBg.visibility = View.VISIBLE
 
             }
@@ -147,14 +196,13 @@ class SongFragment : Fragment() {
     private fun updateSlider() {
         this.requireActivity().runOnUiThread(object : Runnable {
             override fun run() {
-
-//                    val mCurrentPosition = (mediaHolder.currentPosition() / 1000).toFloat()
-                val mCurrentPosition = getCurrentTime().toFloat()
-                if (mCurrentPosition >= slider!!.valueFrom && mCurrentPosition<= slider!!.valueTo) {
-                    slider!!.value = mCurrentPosition
-                    initStartTimeTextView()
+                if (mediaHolder.isPlaying()) {
+                    val mCurrentPosition = getCurrentTime().toFloat()
+                    if (mCurrentPosition >= slider!!.valueFrom && mCurrentPosition <= slider!!.valueTo) {
+                        slider!!.value = mCurrentPosition
+                        initStartTimeTextView()
+                    }
                 }
-
                 mHandler.postDelayed(this, 500)
             }
         })
@@ -182,17 +230,12 @@ class SongFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         mediaHolder.pause()
-
-
     }
 
     override fun onPause() {
         super.onPause()
-
         mediaHolder.pause()
-
     }
 
     companion object {

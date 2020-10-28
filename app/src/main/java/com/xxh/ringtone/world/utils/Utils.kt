@@ -6,8 +6,10 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
 import android.os.Build
+import android.os.Environment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.xxh.ringtone.world.data.model.Song
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -58,14 +60,14 @@ class Utils {
         }
 
         private var db: SQLiteDatabase? = null
-        private var db_file: File?  = null
+        private var db_file: File? = null
 
-        fun exist(context: Context, dbName: String): Boolean{
+        fun exist(context: Context, dbName: String): Boolean {
             var flag: Boolean = false
             try {
                 db_file = context.getDatabasePath(dbName)
                 flag = db_file!!.exists()
-            }catch (e: FileNotFoundException){
+            } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
             return flag
@@ -102,6 +104,43 @@ class Utils {
             val totalSeconds: Long = (totalDuration / 1000)
             percentage = currentSeconds.toDouble() / totalSeconds * 100
             return percentage.toInt()
+        }
+
+        private fun getDownloadRingtoneFileList(context: Context): Array<File> {
+            var ringtoneHolder: File? =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES)
+            if (!ringtoneHolder!!.exists()) {
+                createDir(ringtoneHolder.absolutePath)
+                ringtoneHolder =
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES)
+            }
+
+            val ringtontlist: Array<File> = ringtoneHolder!!.listFiles()
+            return ringtontlist
+        }
+
+        private fun getDownloadRingtoneList(context: Context): MutableList<String> {
+            val ringtontList: Array<File> = getDownloadRingtoneFileList(context)
+            val names = mutableListOf<String>()
+            ringtontList.forEach {
+                names.add("$it")
+            }
+            return names
+        }
+
+        fun isRingtoneInSdcard(context: Context, song: Song): Boolean {
+            val names = getDownloadRingtoneList(context)
+            val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES).absolutePath + File.separator
+            val title = "$path${song.title}.mp3"
+            return title in names
+        }
+
+        fun getRingtoneLocalPath(songTitle: String): String {
+//            val name = ringtone_url.split("/").last()
+            val name = songTitle
+            val path =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES).absolutePath
+            return "$path${File.separator}$name.mp3"
         }
     }
 
