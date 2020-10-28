@@ -32,18 +32,17 @@ class SongFragment : Fragment() {
 
     private lateinit var binding: FragmentSongBinding
 
-//    private lateinit var mediaPlayer: MediaPlayer
+    //    private lateinit var mediaPlayer: MediaPlayer
     private lateinit var mediaHolder: MediaHolder
 
     private var slider: Slider? = null
-    private var startTime: Double = 0.0
-    private var finalTime: Double = 0.0
+    private var startTime: Int = 0
+    private var finalTime: Int = 0
 
     private lateinit var startTimeTextView: TextView
     private lateinit var endTimeTextView: TextView
 
     private val mHandler: Handler = Handler()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,11 +77,10 @@ class SongFragment : Fragment() {
             override fun doAfter() {
                 updateSlider()
 
-
                 binding.songLoadingBg.visibility = View.INVISIBLE
                 binding.songImagePlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
-                finalTime = mediaHolder.duration().toDouble()
-                startTime = mediaHolder.currentPosition().toDouble()
+                finalTime = mediaHolder.duration()
+                startTime = mediaHolder.currentPosition()
                 endTimeTextView.apply {
                     text = String.format(
                         "%02d:%02d",
@@ -95,7 +93,7 @@ class SongFragment : Fragment() {
 
                 initStartTimeTextView()
 
-                slider!!.addOnSliderTouchListener(object : Slider.OnSliderTouchListener{
+                slider!!.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
                     override fun onStartTrackingTouch(slider: Slider) {
 //                        Log.i("TAG",slider.value.toString())
                     }
@@ -103,18 +101,19 @@ class SongFragment : Fragment() {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onStopTrackingTouch(slider: Slider) {
 //                        Log.i("TAG",slider.value.toString())
-                        if (mediaHolder != null){
+
                             val process = slider.value.toLong()
                             mediaHolder.seekAndPlay(process)
 
-                        }
+
                     }
                 })
 //
 
                 slider!!.apply {
-                    valueTo = (mediaHolder.duration() / 1000.0).toFloat()
+//                    valueTo = (mediaHolder.duration() / 1000.0).toFloat()
                     valueFrom = 0.0.toFloat()
+                    valueTo = getFinalTime().toFloat()
                 }
 
             }
@@ -128,10 +127,10 @@ class SongFragment : Fragment() {
         })
     }
 
-    private fun initStartTimeTextView(){
-        startTime = mediaHolder.currentPosition().toDouble()
-        if (startTime<0){
-            startTime = 0.0
+    private fun initStartTimeTextView() {
+        startTime = mediaHolder.currentPosition()
+        if (startTime < 0) {
+            startTime = 0
         }
 
         startTimeTextView.apply {
@@ -144,22 +143,30 @@ class SongFragment : Fragment() {
             )
         }
     }
-    private fun updateSlider(){
-        this.requireActivity().runOnUiThread(object : Runnable{
-            override fun run() {
-                if (mediaHolder != null){
-                    val mCurrentPosition = (mediaHolder.currentPosition() / 1000).toFloat()
 
-                    if(mCurrentPosition>=0.0){
-                        slider!!.value = mCurrentPosition
-                        initStartTimeTextView()
-                    }
+    private fun updateSlider() {
+        this.requireActivity().runOnUiThread(object : Runnable {
+            override fun run() {
+
+//                    val mCurrentPosition = (mediaHolder.currentPosition() / 1000).toFloat()
+                val mCurrentPosition = getCurrentTime().toFloat()
+                if (mCurrentPosition >= slider!!.valueFrom && mCurrentPosition<= slider!!.valueTo) {
+                    slider!!.value = mCurrentPosition
+                    initStartTimeTextView()
                 }
-                mHandler.postDelayed(this,1000)
+
+                mHandler.postDelayed(this, 500)
             }
         })
     }
 
+    private fun getCurrentTime(): Int {
+        return mediaHolder.currentPosition()
+    }
+
+    private fun getFinalTime(): Int {
+        return mediaHolder.duration()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -175,22 +182,22 @@ class SongFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mediaHolder!=null){
-            mediaHolder.pause()
 
-        }
+        mediaHolder.pause()
+
+
     }
 
     override fun onPause() {
         super.onPause()
-        if (mediaHolder!=null){
-            mediaHolder.pause()
-        }
+
+        mediaHolder.pause()
+
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: Song, param2: String) =
+        fun newInstance(param1: Song) =
             SongFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_PARAM1, param1)

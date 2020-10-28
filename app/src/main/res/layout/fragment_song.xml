@@ -60,9 +60,9 @@
         android:layout_marginLeft="@dimen/tag_margin"
         android:layout_marginRight="@dimen/tag_margin"
         android:contentDescription="@string/slider_desc"
-        app:trackColor="@color/white"
-        app:trackColorActive="@color/colorPurple"
-        app:trackColorInactive="@color/colorBlue"
+
+        app:trackColorActive="@color/red"
+        app:trackColorInactive="@color/white"
         app:thumbColor="@color/white"
         app:labelBehavior="withinBounds"
         android:valueFrom="0.0"
