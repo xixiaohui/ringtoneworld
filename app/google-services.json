@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "149221278609",
+    "firebase_url": "https://ringtone-world-3ca4d.firebaseio.com",
+    "project_id": "ringtone-world-3ca4d",
+    "storage_bucket": "ringtone-world-3ca4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149221278609:android:0279fc1341d07814ab5030",
+        "android_client_info": {
+          "package_name": "com.xxh.ringtone.world"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149221278609-t4knuocd5eupt61gjec8rkaicbho8ofb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpifdWIscq-kqapK_DwdHeas5Ny_Q5xiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149221278609-t4knuocd5eupt61gjec8rkaicbho8ofb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
